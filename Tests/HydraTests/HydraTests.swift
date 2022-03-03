@@ -554,7 +554,7 @@ class HydraTestThen: XCTestCase {
 	func test_async() {
 		let exp = expectation(description: "test_async")
 		let returnValue = 5
-		async { (_) -> Int in
+        asyncHydra { (_) -> Int in
 			Thread.sleep(forTimeInterval: 2.0)
 			return returnValue
 			}.then { value in
@@ -574,7 +574,7 @@ class HydraTestThen: XCTestCase {
 	/// This test passes if all operation are resolved one after another when the previous is finished
 	func test_await() {
 		let exp = expectation(description: "test_await")
-		async(in: .background) {
+        asyncHydra(in: .background) {
 			do {
 				let startValue = 5
 				//				let result1 = try ..self.intPromise(startValue)
@@ -596,7 +596,7 @@ class HydraTestThen: XCTestCase {
 	/// The same test with `async` but here we expect the entire async session fail
 	func test_awaitFailed() {
 		let exp = expectation(description: "test_awaitFailed")
-		async(in: .background) {
+        asyncHydra(in: .background) {
 			do {
 				let startValue = 5
 				let _ = try ..self.intPromise(startValue)
@@ -863,7 +863,7 @@ class HydraTestThen: XCTestCase {
 		let exp = expectation(description: "test_retry_condition")
 		let invalidator: InvalidationToken = InvalidationToken()
 		
-		async(token: invalidator, { st -> String in
+        asyncHydra(token: invalidator, { st -> String in
 			Thread.sleep(forTimeInterval: 2.0)
 			if st.isCancelled {
 				print("Promise cancelled")

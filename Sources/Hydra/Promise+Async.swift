@@ -40,7 +40,7 @@ import Foundation
 ///	  - token: invalidation token you need to provide to cancel the promise
 ///   - body: body to execute. To fulfill the promise it should 
 /// - Returns: a new promise
-public func async<T>(in context: Context? = nil, token: InvalidationToken? = nil, _ body: @escaping ( (_ status: PromiseStatus) throws -> (T)) ) -> Promise<T> {
+public func asyncHydra<T>(in context: Context? = nil, token: InvalidationToken? = nil, _ body: @escaping ( (_ status: PromiseStatus) throws -> (T)) ) -> Promise<T> {
 	return Promise<T>(in: context, token: token, { resolve, reject, st in
 		do {
 			try resolve(body(st))
@@ -57,7 +57,7 @@ public func async<T>(in context: Context? = nil, token: InvalidationToken? = nil
 ///   - context: context in which the block will be executed
 ///	  - after: allows you to specify a delay interval before executing the block itself.
 ///   - block: block to execute
-public func async(in context: Context, after: TimeInterval? = nil, _ block: @escaping () -> ()) -> Void {
+public func asyncHydra(in context: Context, after: TimeInterval? = nil, _ block: @escaping () -> ()) -> Void {
 	guard let delay = after else {
 		context.queue.async {
 			block()
